@@ -304,6 +304,148 @@
             .hero-content { flex-direction: column; text-align: center; }
             .hero-photo { margin: 40px auto 0; }
         }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 28px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.97);
+            border-bottom: 1px solid #eee;
+            z-index: 1000;
+            transition: all 0.4s;
+        }
+
+        body.dark nav {
+            background: rgba(10,10,10,0.98);
+            border-bottom: 1px solid #222;
+        }
+
+        /* Desktop Layout */
+        .nav-left, .nav-center, .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-center {
+            display: none; /* Hidden on desktop */
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu a {
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #555;
+        }
+
+        body.dark .nav-menu a { 
+            color: #ddd; 
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 2px;
+            background: #111;
+            transition: all 0.3s;
+        }
+
+        body.dark .hamburger span {
+            background: #fff;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            nav {
+                padding: 20px 28px;
+            }
+
+            .nav-left {
+                display: none; /* Hide left logo on mobile */
+            }
+
+            .nav-center {
+                display: block; /* Show centered logo on mobile */
+                flex: 1;
+                text-align: center;
+            }
+
+            .mobile-logo {
+                font-size: 17px;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(255,255,255,0.98);
+                flex-direction: column;
+                align-items: center;
+                justify-content: start;
+                padding-top: 60px;
+                gap: 40px;
+                transition: left 0.4s ease;
+                z-index: 999;
+            }
+
+            body.dark .nav-menu {
+                background: rgba(10,10,10,0.98);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu a {
+                font-size: 18px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-right {
+                gap: 16px;
+            }
+
+            /* Hamburger Animation */
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(6px, 6px);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -313,17 +455,34 @@
     <div class="cursor-ring" id="cursorRing"></div>
 
     <!-- Navigation -->
-    <nav>
-        <a href="#" class="nav-logo">Min Sitt Paing Oo</a>
-        <ul class="nav-menu">
-            <li><a href="#about">About</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="theme-toggle" id="themeToggle" title="Toggle Theme"></div>
-    </nav>
+    <!-- Navigation - Updated for Mobile -->
+        <nav>
+            <div class="nav-left">
+                <a href="#" class="nav-logo">Min Sitt Paing Oo</a>
+            </div>
+            
+            <div class="nav-center">
+                <a href="#" class="nav-logo mobile-logo">Min Sitt Paing Oo</a>
+            </div>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#about">About</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+            <div class="nav-right">
+                <div class="theme-toggle" id="themeToggle" title="Toggle Theme"></div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
 
     <!-- Hero -->
     <section id="hero">
@@ -374,10 +533,34 @@
         </div>
     </section>
 
+    <section id="education">
+        <div class="section-header">
+            <span class="section-num">02</span>
+            <h2>Education</h2>
+        </div>
+
+        <div class="exp-row">
+            <div class="exp-period">June 2024 — Present (Expected Graduation: February 2027)</div>
+            <div class="exp-title">Bachelor of Science in Computer Science</div>
+            <div class="exp-company">Rangsit University, Thailand</div>
+            <p style="margin-top: 12px;">Current GPA: 3.16 / 4.00</p>
+            
+        </div>
+
+        <div class="exp-row">
+            <div class="exp-period">May 2022 — March 2024</div>
+            <div class="exp-title">Bachelor of Engineering in Computer Science and Engineering</div>
+            <div class="exp-company">Myanmar Institute of Information Technology (MIIT), Myanmar</div>
+            <p style="margin-top: 12px; color:#666;">
+                Completed first and second year. Transferred to Rangsit University in 2024.
+            </p>
+        </div>
+    </section>
+
     <!-- Experience -->
     <section id="experience">
         <div class="section-header">
-            <span class="section-num">02</span>
+            <span class="section-num">03</span>
             <h2>Work Experience</h2>
         </div>
 
@@ -423,7 +606,7 @@
     <!-- Projects -->
     <section id="projects">
         <div class="section-header">
-            <span class="section-num">03</span>
+            <span class="section-num">04</span>
             <h2>Recent Projects</h2>
         </div>
 
@@ -488,7 +671,7 @@
     <!-- Skills -->
     <section id="skills">
         <div class="section-header">
-            <span class="section-num">04</span>
+            <span class="section-num">05</span>
             <h2>Skills</h2>
         </div>
         <div class="skills-grid">
@@ -530,7 +713,8 @@
             Let's work<br>together.
         </div>
         <div class="contact-links">
-            <a href="/cdn-cgi/l/email-protection#a2cfcbccd1cbd6d6cfc3ccc6c3cec3db939195e2c5cfc3cbce8cc1cdcf"><span class="__cf_email__" data-cfemail="1a77737469736e6e777b747e7b767b632b292d5a7d777b737634797577">[email&#160;protected]</span></a><br>
+            <a href="mailto:minsittmandalay137@gmai.com">ministtmandalay137@gmail.com</a><br>
+            <a href="mailto:minsitt.p67@rsu.ac.th">minsitt.p67@rsu.ac.th</a><br>
             <a href="https://t.me/osbornxDio" target="_blank">Telegram: @osbornxDio</a><br>
             <a href="https://www.linkedin.com/in/min-sitt-paing-oo-74892a289/" target="_blank">LinkedIn</a><br>
             <a href="https://github.com/MinSittPaingOo-Oscord" target="_blank">GitHub</a><br>
@@ -542,54 +726,39 @@
         <div>Pathum Thani, Thailand</div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        // Theme Toggle
+    <script>
+        // Theme Toggle (keep your existing code)
         const toggle = document.getElementById('themeToggle');
         const body = document.body;
-
+    
         toggle.addEventListener('click', () => {
             body.classList.toggle('dark');
             localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
         });
-
-        // Load saved theme
+    
         if (localStorage.getItem('theme') === 'dark') {
             body.classList.add('dark');
         }
-
-        // Cursor
-        const cursor = document.getElementById('cursor');
-        const ring = document.getElementById('cursorRing');
-        let mx = 0, my = 0, rx = 0, ry = 0;
-
-        document.addEventListener('mousemove', e => {
-            mx = e.clientX;
-            my = e.clientY;
-            cursor.style.left = mx + 'px';
-            cursor.style.top = my + 'px';
+    
+        // Hamburger Menu
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+    
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
         });
-
-        function animateRing() {
-            rx += (mx - rx) * 0.12;
-            ry += (my - ry) * 0.12;
-            ring.style.left = rx + 'px';
-            ring.style.top = ry + 'px';
-            requestAnimationFrame(animateRing);
-        }
-        animateRing();
-
-        document.querySelectorAll('a').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.width = '22px';
-                cursor.style.height = '22px';
-                ring.style.opacity = '0';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.width = '10px';
-                cursor.style.height = '10px';
-                ring.style.opacity = '0.5';
+    
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
             });
         });
+    
+        // Cursor code (keep your existing cursor code here)
+        // ... your cursor code remains the same ...
     </script>
 </body>
 </html>
