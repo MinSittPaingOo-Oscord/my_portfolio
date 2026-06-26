@@ -4,6 +4,10 @@ This portfolio serves as my personal website, highlighting my education, profess
 
 ---
 
+## Live Site
+
+🌐 https://minsitt.vercel.app
+
 ## Website Sections
 
 ### Home
