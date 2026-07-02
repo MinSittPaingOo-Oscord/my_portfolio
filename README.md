@@ -41,6 +41,7 @@ Showcases my major software projects, including:
 
 * Learning Management System
 * Fashion E-Commerce Platform
+* Intranet System University Web Portal
 * Restaurant Management & Ordering System
 
 Each project includes:
@@ -72,11 +73,11 @@ Organized into multiple categories:
 
 Provides multiple ways to get in touch, including:
 
-* Email
-* University Email
-* LinkedIn
-* GitHub
-* Telegram
+* Email : minsittmandalay137@gmail.com
+* University Email : minsitt.p67@rsu.ac.th
+* LinkedIn : https://www.linkedin.com/in/min-sitt-paing-oo-74892a289/
+* GitHub : MinSittPaingOo-Oscord
+* Telegram : @osbornxDio
 
 ---
 
@@ -92,15 +93,6 @@ Provides multiple ways to get in touch, including:
 * Skills categorization
 * Contact section
 * Optimized for desktop, tablet, and mobile devices
-
----
-
-## Technologies Used
-
-* HTML5
-* CSS3
-* JavaScript
-* Google Fonts
 
 ---
 
