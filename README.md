@@ -32,6 +32,7 @@ Highlights my professional experience, including:
 
 * Junior Full-Stack Developer
 * Founder & CEO of Oscord Code Academy
+* Database & Backend Engineer
 
 Each experience includes responsibilities, technologies used, and professional skills.
 
