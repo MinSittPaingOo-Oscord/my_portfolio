@@ -304,7 +304,47 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 }
 
 /* ── EXPERIENCE (CARD) ── */
-.exp-list{display:flex;flex-direction:column;gap:24px}
+/* Parallel timeline: three lanes run side by side, each card attaches to its own lane */
+.tl{--l1:#0d0d0d;--l2:#7a7a7a;--l3:#a8a8a8;--lw:28px;--ny:46px}
+.tl-legend{display:flex;flex-wrap:wrap;gap:8px 28px;margin-bottom:32px;font-size:12px;font-weight:500;color:#444}
+.tl-key{display:inline-flex;align-items:center;gap:10px}
+.tl-key i{display:block;width:22px;height:3px;background:var(--lc)}
+.tl-step{display:grid;grid-template-columns:calc(var(--lw)*3) 1fr;align-items:stretch}
+.tl-step .exp-item{margin-bottom:24px}
+.tl-rail{display:grid;grid-template-columns:repeat(3,var(--lw))}
+.tl-lane{position:relative}
+.tl-lane.l1{--lc:var(--l1);--rem:2}
+.tl-lane.l2{--lc:var(--l2);--rem:1}
+.tl-lane.l3{--lc:var(--l3);--rem:0}
+.tl-lane.on::before{
+  content:"";position:absolute;left:50%;top:0;bottom:0;
+  width:2px;transform:translateX(-1px);background:var(--lc);
+}
+.tl-lane.start::before{top:var(--ny)}
+.tl-lane.start::after{
+  content:"";position:absolute;top:var(--ny);left:50%;
+  right:calc(var(--rem)*var(--lw)*-1);
+  height:2px;transform:translateY(-1px);background:var(--lc);
+}
+.tl-node{
+  position:absolute;left:50%;top:var(--ny);
+  width:12px;height:12px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:var(--lc);box-shadow:0 0 0 4px var(--bg);z-index:1;
+}
+.tl-lane.hollow .tl-node{background:var(--bg);border:2px solid var(--lc)}
+.tl-lane.live .tl-node{animation:blink 2.4s ease-in-out infinite}
+.tl-step[data-lane="1"]{--lc:var(--l1)}
+.tl-step[data-lane="2"]{--lc:var(--l2)}
+.tl-step[data-lane="3"]{--lc:var(--l3)}
+.tl-step .exp-period::before{
+  content:"";display:inline-block;width:8px;height:8px;
+  background:var(--lc);margin-right:10px;vertical-align:baseline;
+}
+.tl-step .exp-item:hover{transform:none}
+.tl-now{--ny:12px}
+.tl-now .tl-lane.on::before{bottom:auto;height:var(--ny)}
+.tl-end{font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);line-height:24px;padding-left:20px}
 .exp-item{
   display:grid;
   grid-template-columns:200px 1fr;
@@ -577,6 +617,7 @@ footer a:hover{color:#fff}
   footer{padding:24px 48px}
   .about-grid{grid-template-columns:1fr 280px;gap:48px}
   .exp-item{grid-template-columns:160px 1fr;gap:28px;padding:32px}
+  .tl{--ny:38px}
   .projects-list{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 }
 @media(max-width:860px){
@@ -593,6 +634,7 @@ footer a:hover{color:#fff}
   .edu-item{grid-template-columns:1fr;gap:12px}
   .edu-photo{max-width:none;aspect-ratio:16/9}
   .exp-item{grid-template-columns:1fr;gap:16px;padding:28px}
+  .tl{--lw:18px;--ny:34px}
   .projects-list{grid-template-columns:1fr}
   .small-projects-grid{grid-template-columns:1fr}
   .contact-inner{grid-template-columns:1fr;gap:48px}
@@ -609,6 +651,8 @@ footer a:hover{color:#fff}
   .project-item{padding:26px}
   .small-proj-card{padding:24px}
   .exp-item{padding:22px}
+  .tl{--lw:14px;--ny:28px}
+  .tl-end{padding-left:14px}
 }
 @media(prefers-reduced-motion:reduce){
   .reveal{opacity:1;transform:none;transition:none}
@@ -673,7 +717,7 @@ footer a:hover{color:#fff}
         <p class="hero-desc">Full-stack developer and founder of <strong>Oscord Code Academy</strong>, teaching code to <strong>380+ students</strong> worldwide. Also studying Computer Science at Rangsit University.</p>
         <div class="hero-cta">
           <a href="#projects" class="btn btn-solid">View Projects</a>
-          <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+          <a href="file/cv.pdf" id="dlResume" class="btn btn-ghost" download="Min_Sitt_Paing_Oo_Resume.pdf">Download Resume</a>
         </div>
         <div class="hero-stats">
           <div>
@@ -775,61 +819,95 @@ footer a:hover{color:#fff}
     <section id="experience" class="section reveal">
       <p class="sec-eyebrow">Experience</p>
       <h2 class="sec-title">Work Experience</h2>
-      <div class="exp-list">
-        <div class="exp-item">
-          <div class="exp-left">
-            <p class="exp-period">Sep 2022 — Present</p>
-            <p class="exp-type">Founder &amp; Owner</p>
-          </div>
-          <div>
-            <h3 class="exp-role">CEO, Founder &amp; Primary Instructor</h3>
-            <p class="exp-company">Oscord Code Academy — oscord.io</p>
-            <p class="exp-body">I started and run an online coding school that's trained 380+ students from around the world — kids, teenagers, and adults alike — through live Zoom classes, one-on-one mentoring, and self-paced videos, teaching Java, Python, C#, Full-Stack Web Development, and more. I design custom courses around each student's specific goals, including dedicated exam preparation programs and school project mentorship, and I create structured learning materials that adapt to different ages, skill levels, and learning goals. I also built the academy's Learning Management System from scratch for course delivery, progress tracking, and assessment, and I run every part of the business beyond teaching: curriculum development, instructor coordination, student support, marketing, and daily platform operations.</p>
-            <div class="exp-pills">
-              <span class="pill">Full-Stack Curriculum</span>
-              <span class="pill">LMS Development</span>
-              <span class="pill">Exam Prep Programs</span>
-              <span class="pill">Instructor Management</span>
-              <span class="pill">Business Operations</span>
-              <span class="pill">Student Mentoring</span>
+      <div class="tl">
+      <div class="tl-legend" aria-hidden="true">
+        <span class="tl-key" style="--lc:var(--l1)"><i></i>Oscord Code Academy</span>
+        <span class="tl-key" style="--lc:var(--l2)"><i></i>Ociolink</span>
+        <span class="tl-key" style="--lc:var(--l3)"><i></i>Rangsit University</span>
+      </div>
+      <div class="tl-step" data-lane="1">
+      <div class="tl-rail" aria-hidden="true">
+        <span class="tl-lane l1 on start"><b class="tl-node"></b></span>
+        <span class="tl-lane l2"></span>
+        <span class="tl-lane l3"></span>
+      </div>
+          <div class="exp-item">
+            <div class="exp-left">
+              <p class="exp-period">Sep 2022 — Present</p>
+              <p class="exp-type">Founder &amp; Owner</p>
+            </div>
+            <div>
+              <h3 class="exp-role">CEO, Founder &amp; Primary Instructor</h3>
+              <p class="exp-company">Oscord Code Academy — oscord.io</p>
+              <p class="exp-body">I started and run an online coding school that's trained 380+ students from around the world — kids, teenagers, and adults alike — through live Zoom classes, one-on-one mentoring, and self-paced videos, teaching Java, Python, C#, Full-Stack Web Development, and more. I design custom courses around each student's specific goals, including dedicated exam preparation programs and school project mentorship, and I create structured learning materials that adapt to different ages, skill levels, and learning goals. I also built the academy's Learning Management System from scratch for course delivery, progress tracking, and assessment, and I run every part of the business beyond teaching: curriculum development, instructor coordination, student support, marketing, and daily platform operations.</p>
+              <div class="exp-pills">
+                <span class="pill">Full-Stack Curriculum</span>
+                <span class="pill">LMS Development</span>
+                <span class="pill">Exam Prep Programs</span>
+                <span class="pill">Instructor Management</span>
+                <span class="pill">Business Operations</span>
+                <span class="pill">Student Mentoring</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="exp-item">
-          <div class="exp-left">
-            <p class="exp-period">Aug 2026 — Nov 2026</p>
-            <p class="exp-type">Full-Time · Internship</p>
-          </div>
-          <div>
-            <h3 class="exp-role">Database &amp; Backend Engineer</h3>
-            <p class="exp-company">Axuranze Pte. Ltd</p>
-            <p class="exp-body">I designed and maintained the full backend and database for a real-time shuttle bus tracking system, building core data models, migrations, and seed data with PostgreSQL/PostGIS and Prisma. I developed REST APIs with validation, error handling, authentication, and trip lifecycle management, then implemented Socket.IO realtime services to broadcast live vehicle locations to web and mobile clients. I also integrated route geometry for map visualization and tracking features, working closely with the frontend, mobile, and admin teams to deliver a complete end-to-end system.</p>
-            <div class="exp-pills">
-              <span class="pill">PostgreSQL &amp; PostGIS</span>
-              <span class="pill">Prisma ORM</span>
-              <span class="pill">Socket.IO Realtime</span>
-              <span class="pill">REST API Design</span>
-              <span class="pill">Trip Lifecycle Mgmt</span>
+      </div>
+      <div class="tl-step" data-lane="2">
+      <div class="tl-rail" aria-hidden="true">
+        <span class="tl-lane l1 on"></span>
+        <span class="tl-lane l2 on start"><b class="tl-node"></b></span>
+        <span class="tl-lane l3"></span>
+      </div>
+          <div class="exp-item">
+            <div class="exp-left">
+              <p class="exp-period">Nov 2025 — Present</p>
+              <p class="exp-type">Remote · Part-Time</p>
+            </div>
+            <div>
+              <h3 class="exp-role">Junior Full-Stack Developer</h3>
+              <p class="exp-company">Ociolink Software Solutions Co., Ltd.</p>
+              <p class="exp-body">I build and maintain full-stack web apps, from responsive front-ends to backend services that scale. I create REST APIs, manage MySQL and MongoDB databases, and work remotely using Agile and Git.</p>
+              <div class="exp-pills">
+                <span class="pill">Full-Stack Development</span>
+                <span class="pill">RESTful APIs</span>
+                <span class="pill">MySQL &amp; MongoDB</span>
+                <span class="pill">Agile / Git</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="exp-item">
-          <div class="exp-left">
-            <p class="exp-period">Nov 2025 — Present</p>
-            <p class="exp-type">Remote · Part-Time</p>
-          </div>
-          <div>
-            <h3 class="exp-role">Junior Full-Stack Developer</h3>
-            <p class="exp-company">Ociolink Software Solutions Co., Ltd.</p>
-            <p class="exp-body">I build and maintain full-stack web apps, from responsive front-ends to backend services that scale. I create REST APIs, manage MySQL and MongoDB databases, and work remotely using Agile and Git.</p>
-            <div class="exp-pills">
-              <span class="pill">Full-Stack Development</span>
-              <span class="pill">RESTful APIs</span>
-              <span class="pill">MySQL &amp; MongoDB</span>
-              <span class="pill">Agile / Git</span>
+      </div>
+      <div class="tl-step" data-lane="3">
+      <div class="tl-rail" aria-hidden="true">
+        <span class="tl-lane l1 on"></span>
+        <span class="tl-lane l2 on"></span>
+        <span class="tl-lane l3 on start"><b class="tl-node"></b></span>
+      </div>
+          <div class="exp-item">
+            <div class="exp-left">
+              <p class="exp-period">Aug 2026 — Nov 2026</p>
+              <p class="exp-type">Full-Time · Internship</p>
+            </div>
+            <div>
+              <h3 class="exp-role">Database &amp; Backend Engineer</h3>
+              <p class="exp-company">Rangsit University</p>
+              <p class="exp-body"> In my current internship as a Database and Backend Engineer, I deliver the core server infrastructure for a real-time shuttle bus tracking system. A key achievement is engineering a live-tracking engine that processes continuous GPS updates from shuttle buses and instantly broadcasts their exact locations to user dashboards for real-time monitoring. To support this system, I build the geographical data foundation required to accurately visualize complex routes and stops on interactive maps, and develop secure trip-management features that authenticate authorized devices while reliably tracking journey lifecycles from start to finish. By establishing standardized, error-proof communication channels between the database, mobile applications, and administrative platforms, I ensure a highly reliable, end-to-end tracking experience that seamlessly bridges hardware devices with user-facing interfaces.</p>
+              <div class="exp-pills">
+                <span class="pill">PostgreSQL &amp; PostGIS</span>
+                <span class="pill">Prisma ORM</span>
+                <span class="pill">Socket.IO Realtime</span>
+                <span class="pill">REST API Design</span>
+                <span class="pill">Trip Lifecycle Mgmt</span>
+              </div>
             </div>
           </div>
+      </div>
+      <div class="tl-step tl-now">
+        <div class="tl-rail" aria-hidden="true">
+          <span class="tl-lane l1 on live"><b class="tl-node"></b></span>
+          <span class="tl-lane l2 on live"><b class="tl-node"></b></span>
+          <span class="tl-lane l3 on hollow"><b class="tl-node"></b></span>
         </div>
+        <p class="tl-end">Present · ends Dec 2026</p>
+      </div>
       </div>
     </section>
 
@@ -1116,7 +1194,7 @@ footer a:hover{color:#fff}
             <p class="sg-title">Languages Spoken</p>
             <div class="lang-table">
               <div class="lang-row2"><span class="lang-n">Myanmar (Burmese)</span><span class="lang-l">Native</span></div>
-              <div class="lang-row2"><span class="lang-n">English</span><span class="lang-l">Fluent</span></div>
+              <div class="lang-row2"><span class="lang-n">English</span><span class="lang-l">Upper Intermediate</span></div>
               <div class="lang-row2"><span class="lang-n">Thai</span><span class="lang-l">Beginner</span></div>
             </div>
           </div>
@@ -1145,6 +1223,10 @@ footer a:hover{color:#fff}
           <a href="mailto:minsittpaingoo@icloud.com" class="c-row">
             <span class="c-label">Icloud email</span>
             <span class="c-value">minsittpaingoo@icloud.com</span>
+          </a>
+          <a href="tel:+66823059272" class="c-row">
+            <span class="c-label">Phone Number</span>
+            <span class="c-value">+66823059272</span>
           </a>
           <a href="https://t.me/osbornxDio" target="_blank" class="c-row">
             <span class="c-label">Telegram</span>
@@ -1205,6 +1287,34 @@ window.addEventListener('scroll',()=>{
     if(a.getAttribute('href')==='#'+current)a.classList.add('active');
   });
 },{passive:true});
+
+
+// Download Resume: always saves the file, never opens it in the browser
+(function(){
+  const btn=document.getElementById('dlResume');
+  if(!btn)return;
+  const PDF_URL='file/cv.pdf', PDF_NAME='Min_Sitt_Paing_Oo_Resume.pdf';
+  function save(href){
+    const a=document.createElement('a');
+    a.href=href;a.download=PDF_NAME;a.style.display='none';
+    document.body.appendChild(a);a.click();a.remove();
+  }
+  btn.addEventListener('click',async e=>{
+    e.preventDefault();
+    try{
+      const res=await fetch(PDF_URL,{cache:'no-cache'});
+      if(!res.ok)throw new Error('HTTP '+res.status);
+      // octet-stream forces a download instead of the browser's PDF viewer
+      const blob=new Blob([await res.blob()],{type:'application/octet-stream'});
+      const u=URL.createObjectURL(blob);
+      save(u);
+      setTimeout(()=>URL.revokeObjectURL(u),2000);
+    }catch(err){
+      if(location.protocol==='file:'){save(PDF_URL)} // fetch is blocked on file://, a plain download link still saves
+      else alert('Resume not found. Make sure the file is at file/cv.pdf next to index.html.');
+    }
+  });
+})();
 </script>
 </body>
 </html>
